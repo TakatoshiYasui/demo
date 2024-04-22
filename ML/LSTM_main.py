@@ -7,7 +7,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import torch.tensor as tensor # Variable
+from torch import Tensor
+import os
 
 ##module
 from module.param import *
@@ -60,6 +61,11 @@ def train():
         if (epoch+1) % 10 == 0:
             print("epoch:\t{}\tloss:\t{}".format(epoch+1, loss))
 
+savefigdir = "../donet/pred_fig"
+# ディレクトリがない場合、作成する
+if not os.path.exists(savefigdir):
+    os.makedirs(savefigdir)
+
 def test():
     test_x, test_t = get_dataset()
     test_x = test_x[:,:,np.newaxis]
@@ -75,8 +81,11 @@ def test():
     #tensorからnumpyに変換
     predict = predict.to('cpu').detach().numpy().copy()
     # これ以降はグラフ表示のためのいろいろ
+    fig = plt.figure()
     plt.scatter(test_x.reshape(N), predict.reshape(N), marker=".",label="predicted", color="red")
     plt.plot(test_x.reshape(N), test_t.reshape(N), label="true")
+    fname =  savefigdir+"/test_"
+    fig.savefig(fname)
     plt.show()
 
 if __name__ == "__main__":

@@ -97,6 +97,6 @@ plt.plot(date, true_ma, color='dodgerblue',
          linestyle='--', label='true_25MA')
 plt.plot(date, pred_ma, color='red',
          linestyle=':', label='predicted_25MA')
-plt.legend()  # 凡例
+plt.legend()  
 plt.xticks(rotation=30)
 plt.show()
